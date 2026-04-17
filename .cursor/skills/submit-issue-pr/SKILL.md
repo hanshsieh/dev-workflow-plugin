@@ -4,7 +4,7 @@ description: Commits all current changes into a single commit and creates one pu
 disable-model-invocation: true
 ---
 
-# Submit issue PR
+# Submit Issue PR
 
 ## Goal
 
@@ -14,77 +14,55 @@ Commit validated work into a single commit and create one review-ready pull requ
 
 Before using this skill, confirm:
 
+- From the previous context, the issue that has been fixed is clear.
+- There's only one issue.
 - Fixes are already implemented
 - Relevant tests/checks have been run
 
 Also confirm your working tree contains only intended changes for this PR (avoid including unrelated work).
+If multiple issues are detected in the current changes, stop and ask the user to split scope before proceeding.
 
-If not, return to `fix-issue` first.
-
-### 1) Inspect git state
+### Inspect git state
 
 Review:
 
 - Staged and unstaged diffs
 - Untracked files
-- Current branch and upstream status
+- Current branch is not `main` or `master`
+- Is up to date with `origin/main`. If not, stop and ask the user before going forward.
 
-### 2) Stage and commit everything in one commit
+### Commit
 
-Stage all intended changes and create exactly one commit.
+The commit message template:
 
-### 3) Commit
+```markdown
+<title>
 
-Recommended subject:
+<description>
 
-```text
-fix(<scope>): resolve <short problem> (root-cause addressed)
+Validation: <what validation was run>
 ```
 
-Commit body should include:
+Create a single commit for all changes.  
+Before creating the commit, confirm with the user first.
 
-- What was fixed (at a high level)
-- Why the approach is correct/minimal
-- What validation was run
-
-Confirm with the user for the commit message first.
-
-### 4) Verify branch state
-
-Confirm whether current branch:
-
-- Is the intended branch for the fix
-- Has an upstream
-- Is ahead/behind remote
-- Is not main branch
-
-### 5) Push safely
-
-Push with upstream tracking when first push is needed.
-
-Avoid force-push unless explicitly requested by the user.
-
-### 6) Create PR
+### Create PR
 
 Use a concise PR structure:
 
 ```markdown
-## Summary
-### Issue: <Issue 1 title>
+# Issue: <title>
 <root cause summary>
 
-### Issue: <Issue 2 title>
-<root cause summary>
-
-### Approach
+# Approach
 <brief how the fix addresses the root cause>
 
-### Compatibility
+# Compatibility
 <any migration/backwards-compat notes>
 ```
 
-Use `gh` to create draft PR.  
-If multiple issues were fixed, ensure all issues are listed in the PR description.
+Avoid force-push unless explicitly requested by the user.  
+Use `gh` to create draft PR. No confirmation needed.  
 
 ### Final handoff
 
@@ -100,7 +78,7 @@ Delivery is complete only when:
 
 - There is exactly one commit for the PR
 - Commit messages explain why, not only what
-- PR description is review-friendly (includes all issues combined if multiple)
+- PR description is review-friendly and scoped to exactly one issue
 - Remote branch and PR are in a clean, shareable state
 
 ## Anti-Patterns
