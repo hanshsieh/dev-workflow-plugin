@@ -1,14 +1,22 @@
 ---
-name: issue-hunter
-description: Performs fast, evidence-driven issue discovery of a repository and validates root causes without making changes. Use when diagnosing bugs and issues of a repository.
+name: find-issues
+description: Performs evidence-driven issue discovery of a repository and validates root causes without changing source code. Use when diagnosing bugs and issues of a repository.
 ---
 
-# Issue Hunter
+# Find Issues
 
 ## Purpose
 
-Find the issues and bugs in a repository and rank by value.  
-This skill is discovery-only and does not apply fixes.  
+Find issues and bugs in a repository and rank by impact.  
+This skill is discovery-only: do not apply fixes or change source code.  
+You may create report files under the `issues` folder for documentation output.  
+
+## Arguments
+
+- `output=<resp|file>`
+- Default: `file`
+- If `output=file`, write issue reports to the `issues` folder.
+- If `output=resp`, return all issue reports directly in the response and do not write files.
 
 ## Discovery Playbook
 
@@ -63,9 +71,9 @@ Only report an issue when evidence supports the hypothesis.
 - Missing test coverage around risky code paths.
 - Broken developer scripts reducing confidence in changes.
 
-## 4) Prioritization Matrix
+## 4) Prioritization Matrix (Rank by Impact)
 
-Pick issues with:
+Rank issues from high to low impact using:
 
 - High impact if left unresolved
 - High confidence in root cause
@@ -73,33 +81,51 @@ Pick issues with:
 
 Flag large uncertain refactors as follow-up items for manual review.
 
-## 5) Validation and Review Readiness
+## 5) Validation
 
-Before listing:
 - Reproduce or logically prove the bug.
-
-Before handing off to user:
 - Verify the evidence is specific and reproducible.
 - Provide a minimal review recommendation.
 - Call out uncertainty or missing data explicitly.
 
-## Evidence Note Format
+## Output Format
 
-Use this short format while auditing:
+Output behavior depends on `output`:
+
+- `output=file` (default): output all issues to the `issues` folder, one issue per `.md` file.  
+  Create a Markdown file for each issue, such as:  
+  - `01-dry-run-update-db.md`
+  - `02-missing-auth.md`
+- `output=resp`: return all issues in the response directly using the same report schema.
+
+The issues should be ordered from high to low impact.  
+Use the format below:  
 
 ```markdown
-Issue: <title>
-Domain: <security/performance/reliability/tooling>
-Evidence: <code path or runtime observation>
-Root cause: <one sentence>
-Suggested review action: <what user should inspect or approve>
-Confidence: <high/medium/low>
-Decision: Review now | Defer
+# Issue: <title>
+
+- Domain: <security/performance/reliability/tooling>
+- Impact: <high/medium/low>
+- Confidence: <high/medium/low>
+
+## Evidence
+...
+
+## Trigger path
+...
+
+## Root cause
+...
+
+## Suggestion
+...
 ```
+
+Evidence must include exact file paths and code segments.  
+Trigger path should describe how the issue is reached in real execution.  
 
 ## Guardrails
 
 - Do not fix issues in this workflow; only report and prioritize.
 - Do not include unrelated improvements in issue reports.
 - Do not claim risk without a concrete trigger path.
-- Do not skip evidence validation due to time pressure.
