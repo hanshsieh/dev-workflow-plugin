@@ -1,6 +1,7 @@
 ---
 name: fix-issue
 description: Diagnoses and fixes a user-specified issue in an existing codebase. Use when the user asks to resolve an issue.
+disable-model-invocation: true
 ---
 
 # Fix Issue
@@ -21,46 +22,32 @@ Fix one user-specified issue with:
 - Preserve existing behavior unless the issue explicitly requires behavior change.
 - Keep explanations concise and technical: problem, impact, trigger, fix rationale.
 - Always verify with tests after each meaningful change.
+- If the issue statement is ambiguous, ask targeted clarification questions before editing code.
 
 ## Execution Workflow
 
-Copy this checklist and keep it updated:
+- Confirm issue scope and expected behavior
+- Reproduce or validate failing behavior
+- Trace to root cause
+- Design minimal fix and compatibility plan
+- Implement targeted change
+- Add corresponding tests if missing
+- Run focused tests
+- Run broader regression checks
 
-```markdown
-Issue Progress:
-- [ ] 1) Confirm issue scope and expected behavior
-- [ ] 2) Reproduce or validate failing behavior
-- [ ] 3) Trace to root cause
-- [ ] 4) Design minimal fix and compatibility plan
-- [ ] 5) Implement targeted change
-- [ ] 6) Run focused tests
-- [ ] 7) Run broader regression checks
-```
-
-### 1) Confirm scope
-
-Capture:
-
-- Observed behavior
-- Expected behavior
-- Impact area (security/performance/reliability/tooling/tests)
-- Constraints (time, migration risk, compatibility requirements)
-
-If the issue statement is ambiguous, ask targeted clarification questions before editing code.
-
-### 2) Reproduce or validate
+### Reproduce or validate
 
 - Reproduce with tests, logs, profiler output, or a deterministic local scenario.
 - If no reproduction exists, create a focused failing test when practical.
 - Record trigger conditions and blast radius.
 
-### 3) Diagnose root cause
+### Diagnose root cause
 
 Use evidence from code paths, runtime behavior, and configuration.
 
 Reject fixes that only hide symptoms (for example: blanket retries, silent catches, over-broad caching, or disabling checks) unless explicitly requested.
 
-### 4) Design minimal fix
+### Design minimal fix
 
 Before editing, define:
 
@@ -69,16 +56,14 @@ Before editing, define:
 - Backwards compatibility/migration implications
 - Rollback safety
 
-Prefer one issue = one small patch = one commit.
-
-### 5) Implement targeted change
+### Implement targeted change
 
 - Keep edits localized.
 - Avoid opportunistic refactors.
 - Add concise comments where logic is non-obvious.
 - Maintain existing interfaces unless required by the fix.
 
-### 6) Validate continuously
+### Validate continuously
 
 After each significant edit:
 

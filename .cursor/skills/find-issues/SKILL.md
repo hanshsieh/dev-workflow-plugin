@@ -1,6 +1,7 @@
 ---
 name: find-issues
 description: Performs evidence-driven issue discovery of a repository and validates root causes without changing source code. Use when diagnosing bugs and issues of a repository.
+disable-model-invocation: true
 ---
 
 # Find Issues

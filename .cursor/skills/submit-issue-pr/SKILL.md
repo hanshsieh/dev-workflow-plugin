@@ -1,6 +1,7 @@
 ---
 name: submit-issue-pr
 description: Commits all current changes into a single commit and creates one pull request. Use after fixes are implemented and validated, when the user asks to submit work as a PR.
+disable-model-invocation: true
 ---
 
 # Submit issue PR
