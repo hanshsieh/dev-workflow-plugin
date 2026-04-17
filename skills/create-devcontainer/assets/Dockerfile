@@ -33,7 +33,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git config --global core.editor vim \
-    && git config --global safe.directory /workspace
+    && git config --global safe.directory /workspaces
 
 # "Understand-Anything" plugin helps you understand the codebase.
 # "dev-workflow-plugin" plugin helps you with development workflow.
