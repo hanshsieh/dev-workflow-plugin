@@ -73,6 +73,13 @@ After each significant edit:
 
 If test coverage is missing, add only the minimum test needed to lock in the fix.
 
+### Final output requirements
+
+At the end of the task, always include:
+
+1. A concise summary of the changes made.
+2. Follow-up actions when the full fix cannot be safely applied in a single step (especially for security-sensitive or backward-compatibility-constrained issues), including what remains, why it is deferred, and how to complete it safely.
+
 ## Anti-Patterns
 
 Do not:
