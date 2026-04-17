@@ -8,10 +8,6 @@ disable-model-invocation: true
 
 Create a project dev container configuration that is reproducible and ready for local development.
 
-## Parameters
-
-- `understand` (boolean, default: `true`): Whether to clone the `Understand-Anything` repo
-
 ## When To Use
 
 Use this skill when the user asks to:
@@ -27,24 +23,10 @@ Use this skill when the user asks to:
 4. Verify Dockerfile by creating a container.
 5. Remove verification container and image after verification.
 
-## Dockerfile Requirements
+## Dockerfile Base Template (Use This As Source)
 
-In addition to project-specific setup, include all of the following:
-
-- When `understand=true`
-  - Clone repos below to `~/.cursor/plugins/local`
-    - `https://github.com/Lum1104/Understand-Anything.git`
-    - `https://github.com/hanshsieh/dev-workflow-plugin.git`
-  - `ln -sfn /home/${USERNAME}/.cursor/plugins/local/Understand-Anything/understand-anything-plugin /home/${USERNAME}/.understand-anything-plugin`
-- Install:
-  - Python `3.9+`
-  - Node.js `24+`
-  - `pnpm`
-  - `gh`
-  - `vim`
-- Run:
-  - `git config --global core.editor vim`
-  - `git config --global safe.directory /workspace`
+The base Dockerfile template is in `assets/Dockerfile`.  
+The agent must read the template, create `.devcontainer/Dockerfile` based on it, then apply project-specific adjustments.
 
 ## devcontainer.json Requirements
 
@@ -58,7 +40,7 @@ After writing files:
 
 1. Build the image from `.devcontainer/Dockerfile`.
 2. Run a disposable container from that image.
-3. Verify required tools/versions inside container
-4. Verify logged in user
-6. Remove verification container.
-7. Remove verification image.
+3. Verify required tools/versions inside container.
+4. Verify logged in user.
+5. Remove verification container.
+6. Remove verification image.
