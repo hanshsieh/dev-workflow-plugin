@@ -47,11 +47,13 @@ Review:
 The commit message template:
 
 ```markdown
-<title>
+[FIX] <title>
 
+# Issue
 <description>
 
-Validation: <what validation was run>
+# Validation
+<what validation was run>
 ```
 
 Create a single commit containing only issue-related files.  
